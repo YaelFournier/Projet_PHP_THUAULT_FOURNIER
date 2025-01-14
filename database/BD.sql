@@ -1,0 +1,28 @@
+CREATE TABLE QUIZ (
+    idQi INTEGER PRIMARY KEY,
+    nomQ TEXT
+);
+
+CREATE TABLE QUESTION (
+    idQe INTEGER,
+    texte TEXT,
+    reponse TEXT,
+    idQi INTEGER,
+    nbPoints INTEGER,
+    PRIMARY KEY (idQe, idQi),
+    FOREIGN KEY (idQi) REFERENCES QUIZ(idQi)
+);
+
+CREATE TABLE JOUEUR (
+    idJ INTEGER PRIMARY KEY AUTOINCREMENT,
+    nomJ TEXT
+);
+
+CREATE TABLE PARTICIPER (
+    idJ INTEGER,
+    idQi INTEGER,
+    scoreMax INTEGER,
+    PRIMARY KEY (idJ, idQi),
+    FOREIGN KEY (idJ) REFERENCES JOUEUR(idJ),
+    FOREIGN KEY (idQi) REFERENCES QUIZ(idQi)
+);
