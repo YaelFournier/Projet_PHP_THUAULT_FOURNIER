@@ -1,4 +1,5 @@
 <?php
+namespace Tools;
 abstract class GenericFormElement{
     protected $question;
 

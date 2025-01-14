@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <html>
     <head>
         <title>
@@ -6,9 +10,8 @@
     </head>
     <body>
         <?php
-
-        require("Tools/GenericFormElement.php");
-
+        use Tools\type\Checkbox;
+        
         $question = [array(
             "name" => "test",
             "type" => "checkbox",
@@ -36,13 +39,17 @@
         );
 
         if ($_SERVER['REQUEST_METHOD'] == "GET"){
-            echo "<form method='POST' action='GenericFormElement.php><ul>";
+            echo "<form method='POST' action='verif'><ul>";
             foreach ($question as $q){
                 echo "<li>";
                 $elem = $question_handler[$q["type"]]($q);
                 echo $elem -> question($q);
             }
+            echo '</ul>';
+            echo '<input type="submit" value="Valider">';
         }
+        
+
         ?>
     </body>
 </html>
