@@ -1,9 +1,13 @@
 <?php
 namespace Tools;
-abstract class GenericFormElement{
+
+abstract class GenericFormElement {
     protected $question;
 
-    abstract function question($q);
-    abstract function answer($q, $v);
+    public function __construct($question) {
+        $this->question = $question;
+    }
+
+    abstract public function question();
+    abstract public function answer($value);
 }
-?>

@@ -14,7 +14,8 @@ class Question {
             'idQi' => $idQi,
             'nbPoints' => $nbPoints,
         ]);
-    }
+        return $pdo->lastInsertId(); // Retourne l'identifiant de la question
+    }    
 
     public static function getByQuiz(\PDO $pdo, int $idQi) {
         $stmt = $pdo->prepare('SELECT * FROM QUESTION WHERE idQi = :idQi ORDER BY idQe ASC');
