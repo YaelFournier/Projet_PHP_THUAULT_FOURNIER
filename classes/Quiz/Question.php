@@ -1,17 +1,17 @@
 <?php
 namespace Quiz;
 
-class Question
-{
+class Question {
+
     public static function add(\PDO $pdo, int $idQi, string $texte, string $reponse, int $nbPoints) {
         $stmt = $pdo->prepare('
-            INSERT INTO QUESTION (idQe, texte, reponse, idQi, nbPoints)
-            VALUES ((SELECT IFNULL(MAX(idQe), 0) + 1 FROM QUESTION WHERE idQi = :idQi), :texte, :reponse, :idQi, :nbPoints)
+            INSERT INTO QUESTION (texte, reponse, idQi, nbPoints)
+            VALUES (:texte, :reponse, :idQi, :nbPoints)
         ');
         $stmt->execute([
-            'idQi' => $idQi,
             'texte' => $texte,
             'reponse' => $reponse,
+            'idQi' => $idQi,
             'nbPoints' => $nbPoints,
         ]);
     }
@@ -22,15 +22,35 @@ class Question
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public static function delete(\PDO $pdo, int $idQe, int $idQi) {
-        $stmt = $pdo->prepare('DELETE FROM QUESTION WHERE idQe = :idQe AND idQi = :idQi');
-        $stmt->execute(['idQe' => $idQe, 'idQi' => $idQi]);
+    public static function getById(\PDO $pdo, int $idQe) {
+        $stmt = $pdo->prepare('SELECT * FROM QUESTION WHERE idQe = :idQe');
+        $stmt->execute(['idQe' => $idQe]);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    public static function verify(\PDO $pdo, int $idQe, string $reponse) {
+    public static function update(\PDO $pdo, int $idQe, string $texte, string $reponse, int $nbPoints) {
+        $stmt = $pdo->prepare('
+            UPDATE QUESTION
+            SET texte = :texte, reponse = :reponse, nbPoints = :nbPoints
+            WHERE idQe = :idQe
+        ');
+        $stmt->execute([
+            'idQe' => $idQe,
+            'texte' => $texte,
+            'reponse' => $reponse,
+            'nbPoints' => $nbPoints,
+        ]);
+    }
+
+    public static function delete(\PDO $pdo, int $idQe) {
+        $stmt = $pdo->prepare('DELETE FROM QUESTION WHERE idQe = :idQe');
+        $stmt->execute(['idQe' => $idQe]);
+    }
+
+    public static function verifyAnswer(\PDO $pdo, int $idQe, string $userAnswer) {
         $stmt = $pdo->prepare('SELECT reponse FROM QUESTION WHERE idQe = :idQe');
         $stmt->execute(['idQe' => $idQe]);
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        return $result['reponse'] === $reponse;
+        return $result && $result['reponse'] === $userAnswer;
     }
 }

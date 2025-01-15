@@ -1,8 +1,8 @@
 <?php
 namespace Joueurs;
 
-Class Joueur{
-    
+class Joueur {
+
     public static function createAnonyme(\PDO $pdo) {
         try {
             $stmt = $pdo->query('SELECT MAX(idJ) AS lastId FROM JOUEUR');
@@ -10,7 +10,6 @@ Class Joueur{
             $lastId = $result['lastId'] ?? 0;
 
             $newId = $lastId + 1;
-
             $username = "anonyme_{$newId}";
 
             $stmt = $pdo->prepare('INSERT INTO JOUEUR (idJ, nomJ) VALUES (:idJ, :nomJ)');
