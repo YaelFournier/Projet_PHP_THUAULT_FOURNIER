@@ -12,6 +12,11 @@ class Router
             case '/':
                 require_once VIEWS_PATH . '/home.php';
                 break;
+
+            case '/choix_quiz':
+                require_once VIEWS_PATH . '/choix_quizz.php';
+                break;
+
             case '/quizz':
                 require_once VIEWS_PATH . '/Template.php';
                 break;
@@ -19,7 +24,15 @@ class Router
             case '/verif':
                 require_once TOOL_PATH . '/verif.php';
                 break;
+            
+            case '/verifAuth':
+                require_once TOOL_PATH . '/verifAuth.php';
+                break;
 
+            case '/inscription':
+                require_once TOOL_PATH . '/inscription.php';
+                break;
+                
             default:
                 header("Location: /");
                 exit;
