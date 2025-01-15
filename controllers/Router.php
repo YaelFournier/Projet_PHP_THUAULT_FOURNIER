@@ -12,6 +12,11 @@ class Router
             case '/':
                 require_once VIEWS_PATH . '/home.php';
                 break;
+
+            case '/choix_quiz':
+                require_once VIEWS_PATH . '/choix_quizz.php';
+                break;
+
             case '/quizz':
                 require_once VIEWS_PATH . '/Template.php';
                 break;

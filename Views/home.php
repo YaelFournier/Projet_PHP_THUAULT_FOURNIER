@@ -16,7 +16,7 @@
             </ul>
             <input type="submit" value="S'indentifier">
         </form>
-        <form method="POST", action="inscrition">
+        <form method="POST", action="inscription">
             <ul>
                 <li>
                     <label for="pseudo">Pseudo : </label>
