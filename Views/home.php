@@ -3,6 +3,10 @@
         <meta charset="utf-8">
         <title>Connexion</title>
     </head>
+    <body>
+    <?php if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+        exit('Méthode non autorisée');
+    } ?>
         <form method="POST" action="verifAuth">
             <ul>
                 <li>
