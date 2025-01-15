@@ -1,5 +1,5 @@
 <?php
-namespace Joueurs;
+namespace Project\Classes\Joueurs;
 
 class Joueur {
 

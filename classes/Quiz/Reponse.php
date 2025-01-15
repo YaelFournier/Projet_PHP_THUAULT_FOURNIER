@@ -1,18 +1,22 @@
 <?php
-namespace Quiz;
+namespace Project\Classes\Quiz;
 
 class Reponse {
 
     public static function add(\PDO $pdo, int $idQe, string $texte, bool $correct) {
-        $stmt = $pdo->prepare('
-            INSERT INTO REPONSE (idQe, texte, correct)
-            VALUES (:idQe, :texte, :correct)
-        ');
-        $stmt->execute([
-            'idQe' => $idQe,
-            'texte' => $texte,
-            'correct' => $correct ? 1 : 0,
-        ]);
+        try {
+            $stmt = $pdo->prepare('
+                INSERT INTO REPONSE (idQe, texte, correct)
+                VALUES (:idQe, :texte, :correct)
+            ');
+            $stmt->execute([
+                'idQe' => $idQe,
+                'texte' => $texte,
+                'correct' => $correct ? 1 : 0,
+            ]);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
     public static function getByQuestion(\PDO $pdo, int $idQe) {

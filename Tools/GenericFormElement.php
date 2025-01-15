@@ -1,6 +1,4 @@
 <?php
-namespace Tools;
-
 abstract class GenericFormElement {
     protected $question;
 
@@ -8,6 +6,10 @@ abstract class GenericFormElement {
         $this->question = $question;
     }
 
-    abstract public function question();
-    abstract public function answer($value);
+    public function renderTitle() {
+        echo "<p>{$this->question}</p>";
+    }
+
+    abstract public function question(); // Méthode pour afficher le champ
+    abstract public function answer($value); // Méthode pour valider la réponse
 }

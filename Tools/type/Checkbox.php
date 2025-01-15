@@ -1,7 +1,7 @@
 <?php 
-namespace Tools\type;
+namespace Project\Tools\Type;
 
-use Tools\GenericFormElement;
+use Project\Tools\GenericFormElement;
 
 class Checkbox extends GenericFormElement {
     private $options;
@@ -14,9 +14,10 @@ class Checkbox extends GenericFormElement {
     public function question() {
         echo "<p>{$this->question}</p>";
         foreach ($this->options as $option) {
-            echo "<label><input type='checkbox' name='answer[]' value='{$option}'> {$option}</label><br>";
+            echo "<label><input type='checkbox' name='questions[{$this->question}][answers][][text]' value='{$option}'> {$option}</label>";
+            echo "<input type='hidden' name='questions[{$this->question}][answers][][isCorrect]' value='0'>";
         }
-    }
+    }    
 
     public function answer($values) {
         if (!is_array($values)) {

@@ -1,7 +1,7 @@
 <?php 
-namespace Tools\type;
+namespace Project\Tools\Type;
 
-use Tools\GenericFormElement;
+use Project\Tools\GenericFormElement;
 
 class TextInput extends GenericFormElement {
 
