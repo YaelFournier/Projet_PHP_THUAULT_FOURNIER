@@ -19,7 +19,11 @@ class Router
             case '/verif':
                 require_once TOOL_PATH . '/verif.php';
                 break;
-
+            
+            case '/verifAuth':
+                require_once TOOL_PATH . '/verifAuth.php';
+                break;
+                
             default:
                 header("Location: /");
                 exit;
