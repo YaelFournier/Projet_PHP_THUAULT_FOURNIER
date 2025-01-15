@@ -23,6 +23,10 @@ class Router
             case '/verifAuth':
                 require_once TOOL_PATH . '/verifAuth.php';
                 break;
+
+            case '/inscription':
+                require_once TOOL_PATH . '/inscription.php';
+                break;
                 
             default:
                 header("Location: /");
