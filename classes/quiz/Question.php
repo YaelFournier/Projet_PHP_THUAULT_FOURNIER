@@ -55,26 +55,27 @@ class Question {
         return $result && $result['reponse'] === $userAnswer;
     }
 
+    public static function getNbPoints(\PDO $pdo, int $idQe){
+        $stmt = $pdo->prepare('SELECT nbPoints FROM QUESTION WHERE idQe=:id');
+        $stmt->execute(['idQe' => $idQe]);
+        $res = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $res;
+    }
+
     public static function afficheQuestion(\PDO $pdo, int $idQe){
         $question = Question::getById($pdo, $idQe);
         $reponses = Reponse::getByQuestion($pdo, $idQe);
         if (count($reponses)==1){ 
             echo '<li>';
             echo '<p>'.$question['texte'].'</p>';
-            $r = $reponses[0];
-            $idR= $r['idR'];
-            Reponse::afficheReponseTextInput($pdo, $idR);
-
+            Reponse::afficheReponseTextInput($pdo, $idQe);
             echo '</li>';
         }else{
             echo '<li>';
                 echo '<p>'.$question['texte'].'</p>';
-                foreach ($reponses as $r){
-                    $idR= $r['idR'];
-                    echo '<ul>';
-                    Reponse::afficheReponseCheckbox($pdo, $idR);
-                    echo '</ul>';
-                }
+                echo '<ul>';
+                Reponse::afficheReponseCheckbox($pdo, $idQe);
+                echo '</ul>';
                 echo '</li>';
         }
     }

@@ -36,17 +36,21 @@ class Reponse {
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    public static function afficheReponseCheckbox(\PDO $pdo, int $idR){
-        $reponse = Reponse::getById($pdo, $idR);
-        echo '<li>';
-        echo '<label for="'.$idR.'">'. $reponse['texte'] .'</label>';
-        echo '<input type="checkbox" id="'.$idR.'" name="'.$idR.'">';
-        echo '</li>';
+    public static function afficheReponseCheckbox(\PDO $pdo, int $idQe){
+        $reponse = Reponse::getByQuestion($pdo, $idQe);
+        foreach ($reponse as $r){
+            echo '<li>';
+            echo '<label for="'.$idQe.'">'. $r['texte'] .'</label>';
+            echo '<input type="checkbox" id="'.$idQe.'" name="'.$idQe.'" value="'.$r['texte'].'">';
+            echo '</li>';
+        }
     }
 
-    public static function afficheReponseTextInput(\PDO $pdo, int $idR){
-        $reponse = Reponse::getById($pdo, $idR);
-        echo '<label for="'.$idR.'">'. $reponse['texte'] .'</label>';
-        echo '<input type="text" id="'.$idR.'" name="'.$idR.'"placeholder="Entrez votre réponse">';
+    public static function afficheReponseTextInput(\PDO $pdo, int $idQe){
+        $reponse = Reponse::getByQuestion($pdo, $idQe);
+        $r = $reponse[0];
+        echo '<label for="'.$idQe.'">'. $r['texte'] .'</label>';
+        echo '<input type="text" id="'.$idQe.'" name="'.$idQe.'"placeholder="Entrez votre réponse">';
+        
     }
 }

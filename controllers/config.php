@@ -1,5 +1,5 @@
 <?php
-namespace Project\Config;
+namespace Project\Controllers;
 
 define('BASE_PATH', realpath(__DIR__ . '/..'));
 

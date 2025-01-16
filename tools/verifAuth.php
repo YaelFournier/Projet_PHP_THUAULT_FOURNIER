@@ -1,7 +1,10 @@
 <?php
+
+use Project\Database\DataLoaderSQLite;
 include __DIR__ . '/../php_ressources/DataLoaderSQLite.php';
 
 $pseudo = $_POST['pseudo'];
+$pdo = DataLoaderSQLite::getPDO();
 try {
     $req = $pdo->prepare('SELECT nomJ FROM JOUEUR WHERE nomJ=:pseudo');
     $req->bindParam('pseudo', $pseudo);

@@ -28,11 +28,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     break;
                 }
 
-                $questionId = \Project\Classes\Quiz\Question::add(
-                    $pdo, $quizId, $text, '', $points
-                );
+                // Pour une question de type 'TextInput', on ajoute la réponse dans l'attribut 'reponse'
+                if ($type === 'TextInput') {
+                    $correctAnswer = $question['correctAnswer'] ?? null;
 
-                if ($type === 'Checkbox') {
+                    // Vérifiez que la réponse correcte est fournie
+                    if (empty($correctAnswer)) {
+                        $message = "La question " . ($index + 1) . " de type 'TextInput' doit avoir une réponse correcte.";
+                        break;
+                    }
+
+                    $questionId = \Project\Classes\Quiz\Question::add(
+                        $pdo, $quizId, $text, $correctAnswer, $points
+                    );
+                } else {
+                    // Pour les autres types de questions (ex: 'Checkbox'), on procède comme avant
+                    $questionId = \Project\Classes\Quiz\Question::add(
+                        $pdo, $quizId, $text, '', $points
+                    );
+
                     $answers = $question['answers'] ?? [];
                     $hasCorrectAnswer = false;
 
@@ -77,7 +91,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer un Quiz</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
@@ -150,7 +163,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         let questionCount = <?= count($questions) ?>;
@@ -206,11 +218,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (type === 'Checkbox') {
                 answersContainer.style.display = 'block';
                 textAnswerContainer.style.display = 'none';
-                textAnswerInput.removeAttribute('required'); // Supprime le "required" si Checkbox
+                textAnswerInput.removeAttribute('required');
             } else {
                 answersContainer.style.display = 'none';
                 textAnswerContainer.style.display = 'block';
-                textAnswerInput.setAttribute('required', 'required'); // Ajoute le "required" si TextInput
+                textAnswerInput.setAttribute('required', 'required');
             }
         }
 
@@ -233,45 +245,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         function removeAnswer(button) {
             button.parentElement.remove();
         }
-
-        function validateForm(event) {
-            const questionsContainer = document.getElementById('questions-container');
-            const questions = questionsContainer.querySelectorAll('.question');
-
-            for (const question of questions) {
-                const type = question.querySelector('select').value;
-                const text = question.querySelector('input[name*="[text]"]').value.trim();
-
-                if (!text) {
-                    alert("Une question est vide. Veuillez la remplir.");
-                    event.preventDefault();
-                    return false;
-                }
-
-                if (type === 'Checkbox') {
-                    const answers = question.querySelectorAll('.answers .answer');
-                    if (answers.length === 0) {
-                        alert("Une question de type 'Checkbox' doit avoir des réponses.");
-                        event.preventDefault();
-                        return false;
-                    }
-
-                    const hasCorrectAnswer = Array.from(answers).some(answer => {
-                        const checkbox = answer.querySelector('input[type="checkbox"]');
-                        return checkbox && checkbox.checked;
-                    });
-
-                    if (!hasCorrectAnswer) {
-                        alert("Une question de type 'Checkbox' doit avoir au moins une réponse correcte.");
-                        event.preventDefault();
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
-        document.querySelector('form').addEventListener('submit', validateForm);
     </script>
 </body>
 </html>
