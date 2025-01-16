@@ -83,13 +83,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['select_quiz'])) {
             </div>
         <?php else: ?>
             <div class="alert alert-warning text-center">
-                Aucun quiz disponible pour le moment. <a href="ajout_quiz.php" class="alert-link">Créer un nouveau quiz</a>.
+                Aucun quiz disponible pour le moment. <a href="ajout" class="alert-link">Créer un nouveau quiz</a>.
             </div>
         <?php endif; ?>
 
         <!-- Optionnel : Bouton pour créer un nouveau quiz -->
         <div class="text-center mt-4">
-            <a href="ajout_quiz.php" class="btn btn-success">Créer un Nouveau Quiz</a>
+            <a href="ajout" class="btn btn-success">Créer un Nouveau Quiz</a>
         </div>
     </div>
 
