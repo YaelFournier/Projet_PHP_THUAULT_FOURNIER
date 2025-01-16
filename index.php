@@ -5,7 +5,14 @@ use Project\Database\DataLoaderSQLite;
 
 try {
     $pdo = DataLoaderSQLite::getPDO();
-    echo "Autoloader opérationnel. Connexion réussie à la base de données.";
 } catch (\Exception $e) {
     echo "Erreur : " . $e->getMessage();
+<<<<<<< HEAD
 }
+
+use Project\Controllers\Router;
+
+Router::handleRequest();
+=======
+}
+>>>>>>> develop

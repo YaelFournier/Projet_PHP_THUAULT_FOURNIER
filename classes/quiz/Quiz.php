@@ -33,4 +33,13 @@ class Quiz {
     public static function getQuestions(\PDO $pdo, int $idQuiz) {
         return Question::getByQuiz($pdo, $idQuiz);
     }
+
+    public static function afficheQuiz(\PDO $pdo, int $idQuiz): void {
+        foreach (Quiz::getQuestions($pdo, $idQuiz) as $question){
+            $idQe = $question['idQe'];
+            echo '<ul>';
+            Question::afficheQuestion($pdo, $idQe);
+            echo '</ul>';
+        }
+    }
 }

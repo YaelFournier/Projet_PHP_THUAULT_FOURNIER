@@ -54,4 +54,28 @@ class Question {
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $result && $result['reponse'] === $userAnswer;
     }
+
+    public static function afficheQuestion(\PDO $pdo, int $idQe){
+        $question = Question::getById($pdo, $idQe);
+        $reponses = Reponse::getByQuestion($pdo, $idQe);
+        if (count($reponses)==1){ 
+            echo '<li>';
+            echo '<p>'.$question['texte'].'</p>';
+            $r = $reponses[0];
+            $idR= $r['idR'];
+            Reponse::afficheReponseTextInput($pdo, $idR);
+
+            echo '</li>';
+        }else{
+            echo '<li>';
+                echo '<p>'.$question['texte'].'</p>';
+                foreach ($reponses as $r){
+                    $idR= $r['idR'];
+                    echo '<ul>';
+                    Reponse::afficheReponseCheckbox($pdo, $idR);
+                    echo '</ul>';
+                }
+                echo '</li>';
+        }
+    }
 }
