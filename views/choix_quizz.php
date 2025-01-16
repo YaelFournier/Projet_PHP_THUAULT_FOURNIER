@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['select_quiz'])) {
         $_SESSION['quiz_id'] = $selectedQuizId;
 
         // Rediriger vers la page de prise du quiz
-        header('Location: page_quiz.php');
+        header('Location: /quizz');
         exit;
     } else {
         $message = "Quiz invalide sélectionné.";

@@ -10,3 +10,4 @@ use Project\Controllers\Router;
 use Project\Tools\GenericFormElement;
 use Project\Tools\Type\Checkbox;
 use Project\Tools\Type\TextInput;
+use Project\Classes\Quiz\Question;
