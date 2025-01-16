@@ -36,11 +36,17 @@ class Reponse {
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    public static function afficheReponse(\PDO $pdo, int $idR){
+    public static function afficheReponseCheckbox(\PDO $pdo, int $idR){
         $reponse = Reponse::getById($pdo, $idR);
         echo '<li>';
         echo '<label for="'.$idR.'">'. $reponse['texte'] .'</label>';
         echo '<input type="checkbox" id="'.$idR.'" name="'.$idR.'">';
         echo '</li>';
+    }
+
+    public static function afficheReponseTextInput(\PDO $pdo, int $idR){
+        $reponse = Reponse::getById($pdo, $idR);
+        echo '<label for="'.$idR.'">'. $reponse['texte'] .'</label>';
+        echo '<input type="text" id="'.$idR.'" name="'.$idR.'"placeholder="Entrez votre réponse">';
     }
 }

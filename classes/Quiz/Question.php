@@ -58,14 +58,24 @@ class Question {
     public static function afficheQuestion(\PDO $pdo, int $idQe){
         $question = Question::getById($pdo, $idQe);
         $reponses = Reponse::getByQuestion($pdo, $idQe);
-        echo '<li>';
-        echo '<p>'.$question['texte'].'</p>';
-        foreach ($reponses as $r){
+        if (count($reponses)==1){ 
+            echo '<li>';
+            echo '<p>'.$question['texte'].'</p>';
+            $r = $reponses[0];
             $idR= $r['idR'];
-            echo '<ul>';
-            Reponse::afficheReponse($pdo, $idR);
-            echo '</ul>';
+            Reponse::afficheReponseTextInput($pdo, $idR);
+
+            echo '</li>';
+        }else{
+            echo '<li>';
+                echo '<p>'.$question['texte'].'</p>';
+                foreach ($reponses as $r){
+                    $idR= $r['idR'];
+                    echo '<ul>';
+                    Reponse::afficheReponseCheckbox($pdo, $idR);
+                    echo '</ul>';
+                }
+                echo '</li>';
         }
-        echo '</li>';
     }
 }
