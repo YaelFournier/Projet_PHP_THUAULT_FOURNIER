@@ -5,10 +5,10 @@ require_once __DIR__ . '/../resources/init.php';
 
 $pdo = \Project\Database\DataLoaderSQLite::getPDO();
 $message = '';
+$quizName = $_POST['quizName'] ?? '';
+$questions = $_POST['questions'] ?? [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $quizName = $_POST['quizName'] ?? null;
-    $questions = $_POST['questions'] ?? [];
 
     if (empty($quizName)) {
         $message = "Veuillez fournir un nom pour le quiz.";
@@ -61,6 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (empty($message)) {
                 $message = "Le quiz a été créé avec succès.";
+                $quizName = '';
+                $questions = [];
             }
         } catch (\Exception $e) {
             $message = "Erreur : " . $e->getMessage();
@@ -89,10 +91,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="POST" class="bg-white p-4 rounded shadow-sm">
             <div class="mb-3">
                 <label class="form-label">Nom du quiz :</label>
-                <input type="text" name="quizName" class="form-control" required>
+                <input type="text" name="quizName" class="form-control" value="<?= htmlspecialchars($quizName) ?>" required>
             </div>
             <h2 class="mt-4">Questions</h2>
-            <div id="questions-container" class="mb-3"></div>
+            <div id="questions-container" class="mb-3">
+                <?php if (!empty($questions)): ?>
+                    <?php foreach ($questions as $index => $question): ?>
+                        <div class="border rounded p-3 mb-3" id="question-<?= $index + 1 ?>">
+                            <div class="d-flex justify-content-between">
+                                <h3>Question <?= $index + 1 ?></h3>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="removeQuestion(<?= $index + 1 ?>)">Supprimer</button>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Type de question :</label>
+                                <select name="questions[<?= $index ?>][type]" class="form-select" onchange="toggleAnswers(<?= $index + 1 ?>, this.value)" required>
+                                    <option value="TextInput" <?= $question['type'] === 'TextInput' ? 'selected' : '' ?>>Texte</option>
+                                    <option value="Checkbox" <?= $question['type'] === 'Checkbox' ? 'selected' : '' ?>>Choix multiples</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Texte de la question :</label>
+                                <input type="text" name="questions[<?= $index ?>][text]" class="form-control" value="<?= htmlspecialchars($question['text'] ?? '') ?>" required>
+                            </div>
+                            <div id="text-answer-<?= $index + 1 ?>" class="mb-3" style="display: <?= $question['type'] === 'TextInput' ? 'block' : 'none' ?>;">
+                                <label class="form-label">Réponse correcte :</label>
+                                <input type="text" name="questions[<?= $index ?>][correctAnswer]" class="form-control" value="<?= htmlspecialchars($question['correctAnswer'] ?? '') ?>" <?= $question['type'] === 'TextInput' ? 'required' : '' ?>>
+                            </div>
+                            <div id="answers-<?= $index + 1 ?>" style="display: <?= $question['type'] === 'Checkbox' ? 'block' : 'none' ?>;">
+                                <h4>Réponses possibles (choix multiples) :</h4>
+                                <button type="button" class="btn btn-outline-secondary btn-sm mb-3" onclick="addAnswer(<?= $index + 1 ?>)">Ajouter une réponse</button>
+                                <div class="answers">
+                                    <?php if (!empty($question['answers'])): ?>
+                                        <?php foreach ($question['answers'] as $answerIndex => $answer): ?>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <input type="text" name="questions[<?= $index ?>][answers][<?= $answerIndex ?>][text]" class="form-control me-2" placeholder="Texte de la réponse" value="<?= htmlspecialchars($answer['text'] ?? '') ?>" required>
+                                                <div class="form-check me-2">
+                                                    <input type="checkbox" name="questions[<?= $index ?>][answers][<?= $answerIndex ?>][isCorrect]" value="1" class="form-check-input" <?= isset($answer['isCorrect']) && $answer['isCorrect'] === '1' ? 'checked' : '' ?>>
+                                                    <label class="form-check-label">Correcte</label>
+                                                </div>
+                                                <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeAnswer(this)">Supprimer</button>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Points :</label>
+                                <input type="number" name="questions[<?= $index ?>][points]" class="form-control" min="1" value="<?= htmlspecialchars($question['points'] ?? '1') ?>" required>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
             <div class="d-flex justify-content-between">
                 <button type="button" class="btn btn-outline-primary" onclick="addQuestion()">Ajouter une question</button>
                 <button type="submit" class="btn btn-success">Créer le quiz</button>
@@ -103,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        let questionCount = 0;
+        let questionCount = <?= count($questions) ?>;
 
         function addQuestion() {
             questionCount++;
