@@ -3,16 +3,17 @@ namespace Project\Controllers;
 
 class Router
 {
-    public function handleRequest()
+    public static function handleRequest()
     {
-        require_once __DIR__ . '/../config/config.php';
+        require_once __DIR__ . '/config.php';
 
         $requestUri = $_SERVER['REQUEST_URI'];
 
         $routes = [
             '/' => VIEWS_PATH . '/home.php',
-            '/quizz' => VIEWS_PATH . '/Template.php',
+            '/quizz' => VIEWS_PATH . '/page_quiz.php',
             '/verif' => TOOL_PATH . '/verif.php',
+            '/ajout' => VIEWS_PATH . '/ajout_quiz.php'
         ];
 
         if (array_key_exists($requestUri, $routes)) {

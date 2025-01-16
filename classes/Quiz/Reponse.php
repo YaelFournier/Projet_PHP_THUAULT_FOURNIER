@@ -29,4 +29,18 @@ class Reponse {
         $stmt = $pdo->prepare('DELETE FROM REPONSE WHERE idR = :idR');
         $stmt->execute(['idR' => $idR]);
     }
+
+    public static function getById(\PDO $pdo, int $idR){
+        $stmt = $pdo->prepare('SELECT * FROM REPONSE WHERE idR = :idR');
+        $stmt->execute(['idR' => $idR]);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    public static function afficheReponse(\PDO $pdo, int $idR){
+        $reponse = Reponse::getById($pdo, $idR);
+        echo '<li>';
+        echo '<label for="'.$idR.'">'. $reponse['texte'] .'</label>';
+        echo '<input type="checkbox" id="'.$idR.'" name="'.$idR.'">';
+        echo '</li>';
+    }
 }

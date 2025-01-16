@@ -10,3 +10,4 @@ define('VIEWS_PATH', BASE_PATH . '/views');
 date_default_timezone_set('Europe/Paris');
 
 define('CURRENT_PAGE', basename($_SERVER['PHP_SELF'], '.php'));
+?>

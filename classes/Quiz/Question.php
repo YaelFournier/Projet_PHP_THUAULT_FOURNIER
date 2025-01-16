@@ -54,4 +54,18 @@ class Question {
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $result && $result['reponse'] === $userAnswer;
     }
+
+    public static function afficheQuestion(\PDO $pdo, int $idQe){
+        $question = Question::getById($pdo, $idQe);
+        $reponses = Reponse::getByQuestion($pdo, $idQe);
+        echo '<li>';
+        echo '<p>'.$question['texte'].'</p>';
+        foreach ($reponses as $r){
+            $idR= $r['idR'];
+            echo '<ul>';
+            Reponse::afficheReponse($pdo, $idR);
+            echo '</ul>';
+        }
+        echo '</li>';
+    }
 }
