@@ -26,7 +26,7 @@ unset($_SESSION['message'], $_SESSION['message_type']);
     <div class="container d-flex justify-content-center align-items-center full-height">
         <div class="row w-100">
             <!-- Formulaire de Connexion -->
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                     <div class="card-header text-center">
                         Connexion
@@ -51,7 +51,7 @@ unset($_SESSION['message'], $_SESSION['message_type']);
                 </div>
             </div>
             <!-- Formulaire d'Inscription -->
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                     <div class="card-header text-center">
                         Inscription
@@ -75,6 +75,21 @@ unset($_SESSION['message'], $_SESSION['message_type']);
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-success">S'inscrire</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Option "Continuer anonymement" -->
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header text-center">
+                        Continuer anonymement
+                    </div>
+                    <div class="card-body text-center">
+                        <form method="POST" action="anonymous">
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-secondary">Continuer anonymement</button>
                             </div>
                         </form>
                     </div>

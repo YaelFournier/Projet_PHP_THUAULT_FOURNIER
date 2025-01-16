@@ -3,21 +3,24 @@ namespace Project\Views;
 
 require_once __DIR__ . '/../resources/init.php';
 
+use Project\Classes\Joueurs\Joueur;
 use Project\Database\DataLoaderSQLite;
 
+// Vérifier que la requête est bien en POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     $_SESSION['message'] = 'Méthode non autorisée.';
     $_SESSION['message_type'] = 'danger';
-    header('Location: home.php');
+    header('Location: /');
     exit();
 }
 
+// Récupérer et nettoyer le pseudo
 $pseudo = trim($_POST['pseudo'] ?? '');
 
 if (empty($pseudo)) {
     $_SESSION['message'] = 'Le pseudo est requis.';
     $_SESSION['message_type'] = 'warning';
-    header('Location: home.php');
+    header('Location: /');
     exit();
 }
 
@@ -27,30 +30,26 @@ try {
     $pdo->beginTransaction();
 
     // Vérifier si le pseudo existe déjà
-    $stmt = $pdo->prepare('SELECT nomJ FROM JOUEUR WHERE nomJ = :pseudo');
-    $stmt->bindParam(':pseudo', $pseudo, \PDO::PARAM_STR);
-    $stmt->execute();
-    $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+    $joueur = Joueur::getByPseudo($pdo, $pseudo);
 
-    if ($result) {
+    if ($joueur) {
         $pdo->rollBack();
         $_SESSION['message'] = 'Pseudo déjà utilisé.';
         $_SESSION['message_type'] = 'danger';
-        header('Location: home.php');
+        header('Location: /');
         exit();
     }
 
-    // Insérer le nouveau joueur
-    $stmt = $pdo->prepare('INSERT INTO JOUEUR (nomJ) VALUES (:pseudo)');
-    $stmt->bindParam(':pseudo', $pseudo, \PDO::PARAM_STR);
-    $stmt->execute();
+    // Créer le nouveau joueur
+    $newId = Joueur::create($pdo, $pseudo);
     $pdo->commit();
 
     // Enregistrer l'utilisateur dans la session
     $_SESSION['user_pseudo'] = $pseudo;
+    $_SESSION['user_id'] = $newId;
     $_SESSION['message'] = 'Inscription réussie.';
     $_SESSION['message_type'] = 'success';
-    header('Location: /choix_quiz');
+    header('Location: choix_quiz');
     exit();
 } catch (\PDOException $e) {
     if ($pdo->inTransaction()) {
@@ -58,7 +57,7 @@ try {
     }
     $_SESSION['message'] = 'Erreur lors de l\'inscription : ' . $e->getMessage();
     $_SESSION['message_type'] = 'danger';
-    header('Location: home.php');
+    header('Location: /');
     exit();
 } catch (\Exception $e) {
     if ($pdo->inTransaction()) {
@@ -66,6 +65,7 @@ try {
     }
     $_SESSION['message'] = 'Erreur : ' . $e->getMessage();
     $_SESSION['message_type'] = 'danger';
-    header('Location: home.php');
+    header('Location: /');
     exit();
 }
+?>

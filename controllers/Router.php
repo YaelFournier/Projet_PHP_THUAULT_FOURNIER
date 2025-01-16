@@ -15,6 +15,7 @@ class Router
             '/verif' => TOOL_PATH . '/verif.php',
             '/ajout' => VIEWS_PATH . '/ajout_quiz.php',
             '/choix_quiz' => VIEWS_PATH . '/choix_quizz.php',
+            '/anonymous' => VIEWS_PATH . '/anonymous.php',
             '/verifAuth' => TOOL_PATH . '/verifAuth.php',
             '/inscription' => TOOL_PATH . '/inscription.php'
         ];
