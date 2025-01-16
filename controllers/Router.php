@@ -13,7 +13,10 @@ class Router
             '/' => VIEWS_PATH . '/home.php',
             '/quizz' => VIEWS_PATH . '/page_quiz.php',
             '/verif' => TOOL_PATH . '/verif.php',
-            '/ajout' => VIEWS_PATH . '/ajout_quiz.php'
+            '/ajout' => VIEWS_PATH . '/ajout_quiz.php',
+            '/choix_quiz' => VIEWS_PATH . '/choix_quizz.php',
+            '/verifAuth' => TOOL_PATH . '/verifAuth.php', 
+            '/inscription' => TOOL_PATH . '/inscription.php'
         ];
 
         if (array_key_exists($requestUri, $routes)) {
