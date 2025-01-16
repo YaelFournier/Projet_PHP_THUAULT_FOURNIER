@@ -17,7 +17,10 @@ class Router
             '/choix_quiz' => VIEWS_PATH . '/choix_quizz.php',
             '/verifAuth' => TOOL_PATH . '/verifAuth.php', 
             '/inscription' => TOOL_PATH . '/inscription.php',
-            '/tableau_score' => VIEWS_PATH . '/tableau_score.php'
+            '/tableau_score' => VIEWS_PATH . '/tableau_score.php',
+            '/anonymous' => VIEWS_PATH . '/anonymous.php',
+            '/verifAuth' => TOOL_PATH . '/verifAuth.php',
+            '/inscription' => TOOL_PATH . '/inscription.php'
         ];
 
         if (array_key_exists($requestUri, $routes)) {

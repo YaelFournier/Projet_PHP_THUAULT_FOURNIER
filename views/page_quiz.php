@@ -2,11 +2,8 @@
 require_once __DIR__ . '/../resources/init.php';
 
 
-$_SESSION['idJ'] = 1;
-$_SESSION['idQi'] = 1;
-
 $pdo = \Project\Database\DataLoaderSQLite::getPDO();
-$idQuiz = $_SESSION['idQi']; // changer en fonction du quiz choisi par l'utilisateur
+$idQuiz = $_SESSION['quiz_id']; // changer en fonction du quiz choisi par l'utilisateur
 $req = $pdo->prepare('SELECT * FROM QUESTION WHERE idQi=:id;');
 $req->bindParam(':id', $idQuiz);
 $req->execute();
