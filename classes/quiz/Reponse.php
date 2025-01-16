@@ -49,8 +49,9 @@ class Reponse {
     public static function afficheReponseTextInput(\PDO $pdo, int $idQe){
         $reponse = Reponse::getByQuestion($pdo, $idQe);
         $r = $reponse[0];
-        echo '<label for="'.$idQe.'">'. $r['texte'] .'</label>';
-        echo '<input type="text" id="'.$idQe.'" name="'.$idQe.'"placeholder="Entrez votre réponse">';
-        
+        $inputId = 'reponse_' . $idQe; 
+        echo '<label for="' . $inputId . '">' . $r['texte'] . '</label>';
+        echo '<input type="text" id="' . $inputId . '" name="' . $idQe . '" placeholder="Entrez votre réponse">';
     }
+    
 }

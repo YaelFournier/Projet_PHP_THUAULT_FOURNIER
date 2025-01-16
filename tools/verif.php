@@ -3,8 +3,8 @@ namespace Project\Tools;
 
 require_once __DIR__ .'/../resources/init.php';
 
-$idJ = $_SESSION['idJ'];
-$idQi = $_SESSION['idQi'];
+$idJ = $_SESSION['user_id'];
+$idQi = $_SESSION['quiz_id'];
 
 use Project\Database\DataLoaderSQLite;
 use Project\Classes\Quiz\Question;
