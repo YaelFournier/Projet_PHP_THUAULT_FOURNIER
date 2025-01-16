@@ -1,5 +1,5 @@
 <?php 
-namespace Tools;
+namespace Project\Tools;
 
 use Tools\GenericFormElement;
 
